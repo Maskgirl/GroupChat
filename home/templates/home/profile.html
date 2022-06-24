@@ -39,10 +39,9 @@
 </nav>
   
 <div class="jumbotron text-center">
-  <h1 class="profile-heading">{{ required_user.username }}</h1>
+  <h1 class="profile-heading">{{ required_user.email }}</h1>
   
     <img id="img-div" src="{{ required_user.profile.image.url }}" class="rounded-circle">
-    <p class="text-secondary">{{ required_user.email }}</p>
     {% if required_user.profile.user_info %}
         <p>{{ required_user.profile.user_info }}</p>
     {% endif %}

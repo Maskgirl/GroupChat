@@ -88,12 +88,12 @@ class MessageCreateForm(forms.ModelForm):
 
 class SearchUserForm(forms.Form):
 
-    user_name = forms.CharField(max_length=150, label="Username", required=False)
+    email = forms.CharField(max_length=150, label="email", required=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["user_name"].label = "Username :"
-        self.fields["user_name"].widget.attrs[
+        self.fields["email"].label = "email:"
+        self.fields["email"].widget.attrs[
             "placeholder"
         ] = "Search User Name Here..."
 

@@ -23,7 +23,7 @@
       <div id="profile">
         <div class="wrap">
           <img id="profile-img" src="{{ user.profile.image.url }}" class="online" alt="" />
-          <a href="{% url 'home:profile' user %}"><p>{{ user.username }}</p></a>
+          <a href="{% url 'home:profile' user %}"><p>{{ user.email }}</p></a>
           <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
           <div id="status-options">
             <ul>
@@ -115,7 +115,7 @@
 <script type="text/javascript" src="{% static 'home/javascript/reconnecting-websocket.js' %}"></script>
 <script>
     var roomName = {{ room_name_json }};
-    var username = "{{ user.username }}";
+    var email = "{{ user.email }}";
     var old_msg_page_count = 0;
     var loc = window.location, new_uri;
     if (loc.protocol === "https:") {
@@ -186,7 +186,7 @@
         chatSocket.send(JSON.stringify({
             'command': 'new_message',
             'message': message,
-            'from': username,
+            'from': email,
             'grp_name' : roomName
         }));
 
@@ -202,7 +202,7 @@
     }
 
     function fetchGroups() {
-      chatSocket.send(JSON.stringify({'command': 'fetch_groups','username' : username }));
+      chatSocket.send(JSON.stringify({'command': 'fetch_groups','email' : email }));
     }
 
 
@@ -305,7 +305,7 @@
       
       imgTag.src = data["author_profile_img"];
       
-      if (author === username) {
+      if (author === email) {
         msgListTag.className = 'replies';
       } else {
         msgListTag.className = 'sent';

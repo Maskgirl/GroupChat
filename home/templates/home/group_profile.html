@@ -63,7 +63,7 @@
         <div class="media group-box">    
             <img class="rounded-circle account-img" src="{{ member.profile.image.url }}">
             <div class="media-body">
-            <h2 class="account-heading"><a href="{% url 'home:profile' member %}">{{ member.username }}</a></h2>
+            <h2 class="account-heading"><a href="{% url 'home:profile' member %}">{{ member.email }}</a></h2>
             {% if member.profile.user_info %}
                 <p class="text-secondary preview">{{ member.profile.user_info }}</p>
             {% endif %}

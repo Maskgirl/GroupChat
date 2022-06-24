@@ -4,7 +4,7 @@ This is my another vacation project which is group chatting website.This website
 
 You can explore more on : <https://rudresh-chatgroup.herokuapp.com/>  
 # Overview Of Website
-* First page is a login page Which will ask for username name and password  
+* First page is a login page Which will ask for email name and password  
 ![login page](https://raw.githubusercontent.com/RudreshVeerkhare/ChatGroup/master/readme%20images/login.png "login page")  
 * At bottom of login container there is a link for Sign Up page for new users  
 ![sign up page](https://raw.githubusercontent.com/RudreshVeerkhare/ChatGroup/master/readme%20images/register.png "register page")  

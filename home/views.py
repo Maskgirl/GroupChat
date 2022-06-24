@@ -40,7 +40,7 @@ def home(request):
 
     context = {
         "groups": groups,
-        "g_form" : g_form
+        "g_form": g_form
     }
     return render(request, "home/home.html", context)
 
@@ -128,10 +128,10 @@ def register(request):
 
 
 @login_required
-def profile(request, user_name):
+def profile(request, email):
 
     # This will allow us to show updation form only if user is on own profile
-    if request.user.username == user_name:
+    if request.user.email == email:
         if request.method == "POST":
             u_form = UserUpdateForm(request.POST, instance=request.user)
             p_form = ProfileUpdateForm(
@@ -141,7 +141,7 @@ def profile(request, user_name):
             if u_form.is_valid() and p_form.is_valid():
                 u_form.save()
                 p_form.save()
-                return redirect("home:profile", user_name=user_name)
+                return redirect("home:profile", email=email)
 
         else:
             u_form = UserUpdateForm(instance=request.user)
@@ -150,7 +150,7 @@ def profile(request, user_name):
         context = {"required_user": request.user, "u_form": u_form, "p_form": p_form}
 
     else:
-        required_user = get_object_or_404(User, username=user_name)
+        required_user = get_object_or_404(User, email=email)
         context = {"required_user": required_user}
 
     return render(request, "home/profile.html", context)
@@ -163,7 +163,7 @@ def group_profile(request, grp_name):
         # above line will throw exception if user is not permitted for the view
         members = group.members.all()
 
-        if request.user.username == group.creater.username:
+        if request.user.email == group.creater.email:
             if request.method == "POST":
                 g_form = GroupUpdateForm(request.POST, instance=group)
                 gp_form = GroupProfileUpdateForm(
@@ -201,7 +201,7 @@ def search_user(request):
         form = SearchUserForm(request.POST)
 
         if form.is_valid():
-            users = User.objects.filter(username__startswith=form.cleaned_data.get("user_name"))
+            users = User.objects.filter(email__startswith=form.cleaned_data.get("email"))
 
             context = {
                 "users" : users,
@@ -226,7 +226,7 @@ def add_member(request, grp_name):
     try:
         global group
         group = Group.objects.get(group_name=grp_name)
-        flag = group.members.get(username=request.user.username)
+        flag = group.members.get(email=request.user.email)
     except Group.DoesNotExist:
         raise Http404("Group Does not exist")
 
@@ -235,14 +235,14 @@ def add_member(request, grp_name):
     if  flag:
         print(group.group_profile.image.url)
         if request.method == 'POST':
-            if 'user_name' in request.POST and 'users' not in request.POST:
+            if 'email' in request.POST and 'users' not in request.POST:
 
                 form = SearchUserForm(request.POST)
                 userlistform = AddMemberForm()
 
                 if form.is_valid():
                     global users_for_choices # To access it accross if statements
-                    users_for_choices = [ (user.id, user.username) for user in User.objects.filter(username__startswith=form.cleaned_data.get("user_name"))]
+                    users_for_choices = [ (user.id, user.email) for user in User.objects.filter(email__startswith=form.cleaned_data.get("email"))]
                     userlistform.fields['users'].choices = users_for_choices
                     form = SearchUserForm()
                     context = {

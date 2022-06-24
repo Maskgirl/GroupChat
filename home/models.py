@@ -48,7 +48,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     Users within the Django authentication system are represented by this
     model.
 
-    Username and password are required. Other fields are optional.
+    email and password are required. Other fields are optional.
     """
     username = None
     email = models.EmailField(_('email address'), unique=True)
@@ -67,7 +67,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         swappable = "AUTH_USER_MODEL"
 
 def get_sentinal_user():
-    return get_user_model().objects.get_or_create(username="deleted")[0]
+    return get_user_model().objects.get_or_create(email="deleted")[0]
 
 
 class Group(models.Model):
@@ -106,7 +106,7 @@ class Messages(models.Model):
 def get_image_path(instance, filename):
     from os.path import join
 
-    return join("profile_pics", instance.user.username, filename)
+    return join("profile_pics", instance.user.email, filename)
 
 
 class Profile(models.Model):
@@ -115,7 +115,7 @@ class Profile(models.Model):
     image = models.ImageField(default="default.png", upload_to=get_image_path)
 
     def __str__(self):
-        return self.user.username
+        return self.user.email
 
     # Overriding save() method to manupulate the uploaded image
     def save(self, *args, **kwargs):

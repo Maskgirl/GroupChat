@@ -24,7 +24,7 @@
       <div id="profile">
         <div class="wrap">
           <img id="profile-img" src="{{ user.profile.image.url }}" class="online" alt="" />
-          <a href="{% url 'home:profile' user %}"><p>{{ user.username }}</p></a>
+          <a href="{% url 'home:profile' user %}"><p>{{ user.email }}</p></a>
           <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
           <div id="expanded">
             <div class="row">

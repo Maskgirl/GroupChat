@@ -29,12 +29,12 @@ class ChatConsumer(WebsocketConsumer):
         self.send_message(content)
 
     def fetch_groups(self, data):
-        user_name = data["username"]
-        user = User.objects.get(username=user_name)
+        email = data["email"]
+        user = User.objects.get(email=email)
         groups = user.all_groups.all()
         content = {
-            "command" : "groups",
-            "groups" : self.groups_to_json(groups),
+            "command": "groups",
+            "groups": self.groups_to_json(groups),
         }
         self.send_message(content)
     
@@ -45,14 +45,14 @@ class ChatConsumer(WebsocketConsumer):
             results.append({
                 "group_name" : group.group_name,
                 "profile_pic" : group.group_profile.image.url,
-                "last_msg" : f"{last_msg.parent_user.username + ' : ' + last_msg.message_text if last_msg else ''}",
+                "last_msg" : f"{last_msg.parent_user.email + ' : ' + last_msg.message_text if last_msg else ''}",
             })
         return results
 
     def new_message(self, data):
         author = data["from"]
         grp_name = data["grp_name"]
-        parent_user = User.objects.get(username=author)
+        parent_user = User.objects.get(email=author)
         parent_group = Group.objects.get(group_name=grp_name)
         message = Messages.objects.create(
             parent_group=parent_group,
@@ -70,7 +70,7 @@ class ChatConsumer(WebsocketConsumer):
 
     def message_to_json(self, message):
         return {
-            "author": message.parent_user.username,
+            "author": message.parent_user.email,
             "author_profile_img": message.parent_user.profile.image.url,
             "content": message.message_text,
             "timestamp": str(message.date_posted),
