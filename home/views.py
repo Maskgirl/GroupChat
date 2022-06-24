@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from .models import Group, Messages
+from .models import Group, Messages, User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView
 from .forms import (
@@ -17,7 +17,6 @@ from .forms import (
 )
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from django.contrib.auth.models import User
 import json
 from django.utils.safestring import mark_safe
 
